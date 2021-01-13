@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  joomlaos:
+    image: joomla
+    restart: always
+    depends_on:
+      -  joomladb
+    ports:
+      - 9090:80
+    environment:
+      JOOMLA_DB_HOST: joomladb
+      JOOMLA_DB_USER: shreya
+      JOOMLA_DB_PASSWORD: shreya
+      JOOMLA_DB_NAME: mydb
+    volumes:
+      -  joomla_storage:/var/www/html
+
+  joomladb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes: 
+      -  mysql_storage_j:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: shreya
+      MYSQL_PASSWORD: shreya
+      MYSQL_DATABASE: mydb
+
+volumes:
+  mysql_storage_j:
+  joomla_storage:
